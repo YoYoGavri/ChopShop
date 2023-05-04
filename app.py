@@ -11,7 +11,7 @@ import webpageText
 
 global visited
 
-port = int(os.environ.get("PORT", 5000))
+port = int(os.environ.get("PORT", 6969))
 
 def divider():
     print("-------------------------")
@@ -509,4 +509,4 @@ def siteRun():
         return render_template("index.html")
 
 
-app.run()
+app.run(port=port)
