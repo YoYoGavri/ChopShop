@@ -1,5 +1,6 @@
 from cmath import inf
 import random
+import os
 import heapq
 from flask import Flask
 from flask import request
@@ -9,6 +10,8 @@ import time
 import webpageText
 
 global visited
+
+port = int(os.environ.get("PORT", 5000))
 
 def divider():
     print("-------------------------")
@@ -182,318 +185,314 @@ class layout:
         # ANOTHA ONE
         return self.shoppingPath(aisles, frontPath, backPath, finalPath, visited, totalCost, check)
 
+aisleLayout = layout({
+    'Entrance': {'Aisle 1': 2, 'Aisle 2': 4, 'Aisle 3': 6, 'Aisle 4': 9, 'Checkout': 8},
+    'Aisle 1': {'Aisle 5': 2, 'Aisle 2': 2, 'Entrance': 2, 'Checkout': 9},
+    'Aisle 2': {'Aisle 1': 2, 'Aisle 6': 2, 'Aisle 3': 2, 'Entrance': 4, 'Checkout': 7},
+    'Aisle 3': {'Aisle 2': 2, 'Aisle 7': 2, 'Aisle 3': 4, 'Entrance': 6, 'Checkout': 5},
+    'Aisle 4': {'Aisle 3': 2, 'Aisle 8': 2, 'Entrance': 9, 'Checkout': 2},
+    'Aisle 5': {'Aisle 1': 2, 'Aisle 6': 2, 'Aisle 9': 2},
+    'Aisle 6': {'Aisle 5': 2, 'Aisle 2': 2, 'Aisle 7': 2, 'Aisle 10': 2},
+    'Aisle 7': {'Aisle 6': 2, 'Aisle 3': 2, 'Aisle 8': 2, 'Aisle 11': 2},
+    'Aisle 8': {'Aisle 7': 2, 'Aisle 4': 2, 'Aisle 12': 2},
+    'Aisle 9': {'Aisle 5': 2, 'Aisle 10': 2, 'Aisle 13': 4},
+    'Aisle 10': {'Aisle 9': 2, 'Aisle 6': 2, 'Aisle 11': 2, 'Aisle 13': 3},
+    'Aisle 11': {'Aisle 10': 2, 'Aisle 7': 2, 'Aisle 12': 2, 'Aisle 13': 3},
+    'Aisle 12': {'Aisle 11': 2, 'Aisle 8': 2, 'Aisle 13': 4},
+    'Aisle 13': {'Aisle 9': 4, 'Aisle 10': 3, 'Aisle 11': 3, 'Aisle 12': 4},
+    'Checkout': {'Entrance': 8, 'Aisle 4': 2, 'Aisle 3': 5, 'Aisle 2': 7}
+})
 
-if __name__ == '__main__':
-    divider()
+aisleItems = {
+    'Aisle 1': {'Spaghetti', 'Rigatoni', 'Macaroni', 'Penne', 'Pasta Sauce', 'Meatballs'},
+    'Aisle 2': {'Coke', 'Sprite', 'Dr. Pepper', 'Fanta', 'Root Beer', 'Ginger Ale'},
+    'Aisle 3': {'White Bread', 'Rye Bread', 'Wheat Bread', 'Pumpernickel Bread'},
+    'Aisle 4': {'Apples', 'Bananas', 'Grapes', 'Oranges', 'Pineapples', 'Carrots', 'Lettuce', 'Celery', 'Cucumbers',
+                'Asparagus', 'Broccoli', 'Cauliflower'},
+    'Aisle 5': {'Bottled Water', 'Purified Water', 'Sparkling Water', 'Mineral Water'},
+    'Aisle 6': {'Apple Juice', 'Grape Juice', 'Orange Juice', 'Pineapple Juice', 'Prune Juice'},
+    'Aisle 7': {'Beans', 'Chicken Noodle Soup', 'Sardines', 'Green Beans', 'Peas', 'Beef Stew'},
+    'Aisle 8': {'Saffron', 'Paprika', 'Cayenne', 'Turmeric', 'Thyme', 'Oregano', 'Ginger', 'Cumin', 'Salt',
+                'Black Pepper'},
+    'Aisle 9': {'Prescription Drugs', 'Nonprescription Drugs', 'Vitamins', 'Minerals'},
+    'Aisle 10': {'Shampoo', 'Conditioner', 'Lotion', 'Toothpaste', 'Toothbrushes', 'Soap', 'Deodorant',
+                    'Hairspray'},
+    'Aisle 11': {'Candy', 'Chips', 'Chocolate', 'Cookies', 'Popcorn', 'Pretzels'},
+    'Aisle 12': {'Milk', 'Cheese', 'Butter', 'Eggs', 'Yogurt'},
+    'Aisle 13': {'Ice Cream', 'Frozen Vegetables', 'Frozen Meats', 'Frozen Pizza', 'Frozen Fruit'}
+}
 
-    aisleLayout = layout({
-        'Entrance': {'Aisle 1': 2, 'Aisle 2': 4, 'Aisle 3': 6, 'Aisle 4': 9, 'Checkout': 8},
-        'Aisle 1': {'Aisle 5': 2, 'Aisle 2': 2, 'Entrance': 2, 'Checkout': 9},
-        'Aisle 2': {'Aisle 1': 2, 'Aisle 6': 2, 'Aisle 3': 2, 'Entrance': 4, 'Checkout': 7},
-        'Aisle 3': {'Aisle 2': 2, 'Aisle 7': 2, 'Aisle 3': 4, 'Entrance': 6, 'Checkout': 5},
-        'Aisle 4': {'Aisle 3': 2, 'Aisle 8': 2, 'Entrance': 9, 'Checkout': 2},
-        'Aisle 5': {'Aisle 1': 2, 'Aisle 6': 2, 'Aisle 9': 2},
-        'Aisle 6': {'Aisle 5': 2, 'Aisle 2': 2, 'Aisle 7': 2, 'Aisle 10': 2},
-        'Aisle 7': {'Aisle 6': 2, 'Aisle 3': 2, 'Aisle 8': 2, 'Aisle 11': 2},
-        'Aisle 8': {'Aisle 7': 2, 'Aisle 4': 2, 'Aisle 12': 2},
-        'Aisle 9': {'Aisle 5': 2, 'Aisle 10': 2, 'Aisle 13': 4},
-        'Aisle 10': {'Aisle 9': 2, 'Aisle 6': 2, 'Aisle 11': 2, 'Aisle 13': 3},
-        'Aisle 11': {'Aisle 10': 2, 'Aisle 7': 2, 'Aisle 12': 2, 'Aisle 13': 3},
-        'Aisle 12': {'Aisle 11': 2, 'Aisle 8': 2, 'Aisle 13': 4},
-        'Aisle 13': {'Aisle 9': 4, 'Aisle 10': 3, 'Aisle 11': 3, 'Aisle 12': 4},
-        'Checkout': {'Entrance': 8, 'Aisle 4': 2, 'Aisle 3': 5, 'Aisle 2': 7}
-    })
+numItems = random.randint(5, 10)
 
-    aisleItems = {
-        'Aisle 1': {'Spaghetti', 'Rigatoni', 'Macaroni', 'Penne', 'Pasta Sauce', 'Meatballs'},
-        'Aisle 2': {'Coke', 'Sprite', 'Dr. Pepper', 'Fanta', 'Root Beer', 'Ginger Ale'},
-        'Aisle 3': {'White Bread', 'Rye Bread', 'Wheat Bread', 'Pumpernickel Bread'},
-        'Aisle 4': {'Apples', 'Bananas', 'Grapes', 'Oranges', 'Pineapples', 'Carrots', 'Lettuce', 'Celery', 'Cucumbers',
-                    'Asparagus', 'Broccoli', 'Cauliflower'},
-        'Aisle 5': {'Bottled Water', 'Purified Water', 'Sparkling Water', 'Mineral Water'},
-        'Aisle 6': {'Apple Juice', 'Grape Juice', 'Orange Juice', 'Pineapple Juice', 'Prune Juice'},
-        'Aisle 7': {'Beans', 'Chicken Noodle Soup', 'Sardines', 'Green Beans', 'Peas', 'Beef Stew'},
-        'Aisle 8': {'Saffron', 'Paprika', 'Cayenne', 'Turmeric', 'Thyme', 'Oregano', 'Ginger', 'Cumin', 'Salt',
-                    'Black Pepper'},
-        'Aisle 9': {'Prescription Drugs', 'Nonprescription Drugs', 'Vitamins', 'Minerals'},
-        'Aisle 10': {'Shampoo', 'Conditioner', 'Lotion', 'Toothpaste', 'Toothbrushes', 'Soap', 'Deodorant',
-                     'Hairspray'},
-        'Aisle 11': {'Candy', 'Chips', 'Chocolate', 'Cookies', 'Popcorn', 'Pretzels'},
-        'Aisle 12': {'Milk', 'Cheese', 'Butter', 'Eggs', 'Yogurt'},
-        'Aisle 13': {'Ice Cream', 'Frozen Vegetables', 'Frozen Meats', 'Frozen Pizza', 'Frozen Fruit'}
-    }
+index = 0
 
-    numItems = random.randint(5, 10)
+# groceryList = handshake
 
-    index = 0
-
-    # groceryList = handshake
-
-    # while index < numItems:
-    #
-    #     aisleChoice = random.choice(list(aisleItems))
-    #     item = random.choice(list(aisleItems[aisleChoice]))
-    #
-    #     if item not in groceryList:
-    #         groceryList.append(item)
-    #         index += 1
-    # app.run()
-    # print()
-    # print("The items we need are:")
-    # print()
-    # print(groceryList)
-    # aisles = genAisleList(groceryList, aisleItems)
-    # print()
-    # print("These items are in:")
-    # print()
-    # print(aisles)
-    # print()
-    # print("The best path through is:")
-    # print()
-    # print(aisleLayout.shoppingPath(aisles))
-    # print()
-    #
-    # divider()
-    # app.run()
+# while index < numItems:
+#
+#     aisleChoice = random.choice(list(aisleItems))
+#     item = random.choice(list(aisleItems[aisleChoice]))
+#
+#     if item not in groceryList:
+#         groceryList.append(item)
+#         index += 1
+# app.run()
+# print()
+# print("The items we need are:")
+# print()
+# print(groceryList)
+# aisles = genAisleList(groceryList, aisleItems)
+# print()
+# print("These items are in:")
+# print()
+# print(aisles)
+# print()
+# print("The best path through is:")
+# print()
+# print(aisleLayout.shoppingPath(aisles))
+# print()
+#
+# divider()
+# app.run()
 
 
 
-    app = Flask(__name__)
+app = Flask(__name__)
 
 
-    @app.route("/", methods=['GET', 'POST'])
-    def siteRun():
-        global aisles
-        if request.method == 'POST':
-            handshake = request.form.get('myTextArea')
-            handshake = handshake.replace('\r', '')
-            handshake = handshake.split('\n')
-            handshake.pop(-1)
+@app.route("/", methods=['GET', 'POST'])
+def siteRun():
+    global aisles
+    if request.method == 'POST':
+        handshake = request.form.get('myTextArea')
+        handshake = handshake.replace('\r', '')
+        handshake = handshake.split('\n')
+        handshake.pop(-1)
 
-            groceryList = handshake
-            print()
-            print("The items we need are:")
-            print()
-            print(groceryList)
-            aisles = genAisleList(groceryList, aisleItems)
-            print()
-            print("These items are in:")
-            print()
-            print(aisles)
-            print()
-            print("The best path through is:")
-            print()
-            print(aisleLayout.shoppingPath(aisles))
-            print()
+        groceryList = handshake
+        print()
+        print("The items we need are:")
+        print()
+        print(groceryList)
+        aisles = genAisleList(groceryList, aisleItems)
+        print()
+        print("These items are in:")
+        print()
+        print(aisles)
+        print()
+        print("The best path through is:")
+        print()
+        print(aisleLayout.shoppingPath(aisles))
+        print()
 
+        divider()
+
+        # Clones edges and optimal path for ease of use. ☺
+        all = aisleLayout.printEdges()
+        optimal = aisleLayout.shoppingPath(aisles)
+
+        # Creates some lists to organize path sections. ☺
+        firstTry = []
+        secondTry = []
+        thirdTry = []
+        cannotDo = []
+        replacements = []
+
+        # Zips the list of aisles into lists of 2 consecutive aisles for path checking. ☺
+        res = list(zip(optimal, optimal[1:] + optimal[:1]))
+        for item in res:
+            firstTry.append(list(item))
+
+        for item in all:
+            secondTry.append(item)
+
+        for item in firstTry:
+            if item in secondTry and item != ['Checkout', 'Entrance']:
+                thirdTry.append(item)
+
+        # List of path segments we can naturally complete. ☺
+        print(f"Paths that can be achieved: {thirdTry}")
+
+        for item in thirdTry:
+            if item in firstTry and item != ['Checkout', 'Entrance']:
+                firstTry.remove(item)
+
+        cannotDo = firstTry
+
+        # List of path segments that cannot be naturally completed. ☺
+        print(f"Paths that cannot be achieved: {cannotDo}")
+
+        divider()
+
+        # Function to generate paths for the segments that currently cannot be traversed. ☺
+        def pathGen(start, end, currentPath):
+
+            currentPath.append(start)
+
+            if start == end:
+                # Path found between required start and end node. ☺
+                print(f"Path found: {currentPath}")
+                replacements.append(currentPath)
+                return
+
+            else:
+                neighbors = []
+                distances = []
+
+                # Find all potential next neighbors from the start node.
+                for i in all:
+                    if start in i:
+                        for x in i:
+                            if x is not start and x not in neighbors:
+                                neighbors.append(x)
+
+                # Compare all potential neighboring nodes' weights. ☺
+                for potential in neighbors:
+                    for key in aisleLayout.dijkstra(potential):
+                        if key is potential:
+                            distances.append(
+                                {key: aisleLayout.dijkstra(potential)[end] + aisleLayout.dijkstra(start)[
+                                    potential]})
+
+                chosen = None
+                chosenDis = None
+
+                # Determine next step in pathfinding function. ☺
+                for pair in distances:
+
+                    if chosen is None:
+                        chosen = list(pair.keys())[0]
+                        chosenDis = list(pair.values())[0]
+
+                    elif int(list(pair.values())[0]) < chosenDis:
+                        chosen = list(pair.keys())[0]
+                        chosenDis = list(pair.values())[0]
+
+                pathGen(chosen, end, currentPath)
+
+        # Determine what path segments cannot be completed and then aim to solve them. ☺
+        for neededPath in cannotDo:
+            print(f"Path must be found between {neededPath[0]} and {neededPath[1]}")
+            pathGen(neededPath[0], neededPath[1], [])
             divider()
 
-            # Clones edges and optimal path for ease of use. ☺
-            all = aisleLayout.printEdges()
-            optimal = aisleLayout.shoppingPath(aisles)
+        shoppingPathClone = aisleLayout.shoppingPath(aisles)
 
-            # Creates some lists to organize path sections. ☺
-            firstTry = []
-            secondTry = []
-            thirdTry = []
-            cannotDo = []
-            replacements = []
+        # Zip again. ☺
+        res = list(zip(shoppingPathClone, shoppingPathClone[1:] + shoppingPathClone[:1]))
 
-            # Zips the list of aisles into lists of 2 consecutive aisles for path checking. ☺
-            res = list(zip(optimal, optimal[1:] + optimal[:1]))
-            for item in res:
-                firstTry.append(list(item))
+        cannotDo = [tuple(x) for x in cannotDo]
 
-            for item in all:
-                secondTry.append(item)
+        # Format new path segments. ☺
+        for i in res:
 
-            for item in firstTry:
-                if item in secondTry and item != ['Checkout', 'Entrance']:
-                    thirdTry.append(item)
+            if i in cannotDo:
+                next1 = replacements.pop(0)
+                res[res.index(i)] = next1
 
-            # List of path segments we can naturally complete. ☺
-            print(f"Paths that can be achieved: {thirdTry}")
+        if ['Checkout', 'Entrance'] in res:
+            res.remove(['Checkout', 'Entrance'])
 
-            for item in thirdTry:
-                if item in firstTry and item != ['Checkout', 'Entrance']:
-                    firstTry.remove(item)
+        print(f"Full Path: {res}")
 
-            cannotDo = firstTry
+        cleanPath = []
 
-            # List of path segments that cannot be naturally completed. ☺
-            print(f"Paths that cannot be achieved: {cannotDo}")
+        for val in res:
+            for inVal in val:
+                cleanPath.append(inVal)
 
-            divider()
+        print(f"Clean Path: {cleanPath}")
 
-            # Function to generate paths for the segments that currently cannot be traversed. ☺
-            def pathGen(start, end, currentPath):
+        previous_value = None
+        finalPath = []
 
-                currentPath.append(start)
+        # Replace old path segments which cannot be completed with new segments that can be completed. ☺
+        for elem in cleanPath:
+            if elem != previous_value:
+                finalPath.append(elem)
+                previous_value = elem
 
-                if start == end:
-                    # Path found between required start and end node. ☺
-                    print(f"Path found: {currentPath}")
-                    replacements.append(currentPath)
-                    return
+        print(f"Final Path: {finalPath}")
 
-                else:
-                    neighbors = []
-                    distances = []
+        # return str(handshake)
 
-                    # Find all potential next neighbors from the start node.
-                    for i in all:
-                        if start in i:
-                            for x in i:
-                                if x is not start and x not in neighbors:
-                                    neighbors.append(x)
+        eTopX = 17
+        eTopY = 498
+        eRightX = 37
+        eRightY = 514
+        coLeftX = 257
+        coLeftY = 514
+        coTopX = 283
+        coTopY = 498
+        bottom1X = 50
+        bottom1Y = 485
+        top1X = 50
+        top1Y = 363
+        bottom2X = 111
+        bottom2Y = 485
+        top2X = 111
+        top2Y = 363
+        bottom3X = 179
+        bottom3Y = 485
+        top3X = 179
+        top3Y = 363
+        bottom4X = 245
+        bottom4Y = 485
+        top4X = 245
+        top4Y = 363
 
-                    # Compare all potential neighboring nodes' weights. ☺
-                    for potential in neighbors:
-                        for key in aisleLayout.dijkstra(potential):
-                            if key is potential:
-                                distances.append(
-                                    {key: aisleLayout.dijkstra(potential)[end] + aisleLayout.dijkstra(start)[
-                                        potential]})
+        aislesLocations = {
+            "Entrance": {"TopX": '17', 'TopY': '498'},
+            "Aisle 1": {'BottomX': '50','BottomY': '485', 'TopX': '50', 'TopY': '363'},
+            "Aisle 2": {'BottomX': '111', 'BottomY': '485', 'TopX': '111', 'TopY': '363'},
+            "Aisle 3": {'BottomX': '179', 'BottomY': '485', 'TopX': '179', 'TopY': '363'},
+            "Aisle 4": {'BottomX': '245', 'BottomY': '485', 'TopX': '245', 'TopY': '363'},
+            "Aisle 5": {'BottomX': '50', 'BottomY': '345', 'TopX': '50', 'TopY': '200'},
+            "Aisle 6": {'BottomX': '111', 'BottomY': '345', 'TopX': '111', 'TopY': '200'},
+            "Aisle 7": {'BottomX': '179', 'BottomY': '345', 'TopX': '179', 'TopY': '200'},
+            "Aisle 8": {'BottomX': '245', 'BottomY': '345', 'TopX': '245', 'TopY': '200'},
+            "Aisle 9": {'BottomX': '50', 'BottomY': '182', 'TopX': '50', 'TopY': '64'},
+            "Aisle 10": {'BottomX': '111', 'BottomY': '182', 'TopX': '111', 'TopY': '64'},
+            "Aisle 11": {'BottomX': '179', 'BottomY': '182', 'TopX': '179', 'TopY': '64'},
+            "Aisle 12": {'BottomX': '245', 'BottomY': '182', 'TopX': '245', 'TopY': '64'},
+            "Aisle 13": {'BottomX': '14', 'BottomY': '10', 'TopX': '290', 'TopY': '10'},
+            "Checkout": {'TopX': '283', 'TopY': '498'}
+        }
+        img = Image.open('static/Aisles_Resized.png')
+        draw = ImageDraw.Draw(img)
 
-                    chosen = None
-                    chosenDis = None
+        for i in range(len(finalPath) - 2):
+            if (i == 0) and (finalPath[0] != 'Entrance'):
+                print('Invalid Path')
+                exit()
+            else:
+                if (finalPath[0] == 'Entrance'):
+                    draw.line((int(aislesLocations[finalPath[0]]['TopX']),
+                                int(aislesLocations[finalPath[0]]['TopY']),
+                            int(aislesLocations[finalPath[1]]['BottomX']),
+                            int(aislesLocations[finalPath[1]]['BottomY'])), fill=(0, 255, 0), width=5)
 
-                    # Determine next step in pathfinding function. ☺
-                    for pair in distances:
+                    if (finalPath[i] in aislesLocations) and (finalPath[i + 1] in aislesLocations) and (
+                            finalPath[i] != 'Entrance'):
+                        draw.line(
+                            (int(aislesLocations[finalPath[i]]['TopX']),
+                                int(aislesLocations[finalPath[i]]['TopY']),
+                                int(aislesLocations[finalPath[i + 1]]['BottomX']),
+                                int(aislesLocations[finalPath[i + 1]]['BottomY'])), fill=(0, 255, 0), width=5)
 
-                        if chosen is None:
-                            chosen = list(pair.keys())[0]
-                            chosenDis = list(pair.values())[0]
-
-                        elif int(list(pair.values())[0]) < chosenDis:
-                            chosen = list(pair.keys())[0]
-                            chosenDis = list(pair.values())[0]
-
-                    pathGen(chosen, end, currentPath)
-
-            # Determine what path segments cannot be completed and then aim to solve them. ☺
-            for neededPath in cannotDo:
-                print(f"Path must be found between {neededPath[0]} and {neededPath[1]}")
-                pathGen(neededPath[0], neededPath[1], [])
-                divider()
-
-            shoppingPathClone = aisleLayout.shoppingPath(aisles)
-
-            # Zip again. ☺
-            res = list(zip(shoppingPathClone, shoppingPathClone[1:] + shoppingPathClone[:1]))
-
-            cannotDo = [tuple(x) for x in cannotDo]
-
-            # Format new path segments. ☺
-            for i in res:
-
-                if i in cannotDo:
-                    next1 = replacements.pop(0)
-                    res[res.index(i)] = next1
-
-            if ['Checkout', 'Entrance'] in res:
-                res.remove(['Checkout', 'Entrance'])
-
-            print(f"Full Path: {res}")
-
-            cleanPath = []
-
-            for val in res:
-                for inVal in val:
-                    cleanPath.append(inVal)
-
-            print(f"Clean Path: {cleanPath}")
-
-            previous_value = None
-            finalPath = []
-
-            # Replace old path segments which cannot be completed with new segments that can be completed. ☺
-            for elem in cleanPath:
-                if elem != previous_value:
-                    finalPath.append(elem)
-                    previous_value = elem
-
-            print(f"Final Path: {finalPath}")
-
-            # return str(handshake)
-
-            eTopX = 17
-            eTopY = 498
-            eRightX = 37
-            eRightY = 514
-            coLeftX = 257
-            coLeftY = 514
-            coTopX = 283
-            coTopY = 498
-            bottom1X = 50
-            bottom1Y = 485
-            top1X = 50
-            top1Y = 363
-            bottom2X = 111
-            bottom2Y = 485
-            top2X = 111
-            top2Y = 363
-            bottom3X = 179
-            bottom3Y = 485
-            top3X = 179
-            top3Y = 363
-            bottom4X = 245
-            bottom4Y = 485
-            top4X = 245
-            top4Y = 363
-
-            aislesLocations = {
-                "Entrance": {"TopX": '17', 'TopY': '498'},
-                "Aisle 1": {'BottomX': '50','BottomY': '485', 'TopX': '50', 'TopY': '363'},
-                "Aisle 2": {'BottomX': '111', 'BottomY': '485', 'TopX': '111', 'TopY': '363'},
-                "Aisle 3": {'BottomX': '179', 'BottomY': '485', 'TopX': '179', 'TopY': '363'},
-                "Aisle 4": {'BottomX': '245', 'BottomY': '485', 'TopX': '245', 'TopY': '363'},
-                "Aisle 5": {'BottomX': '50', 'BottomY': '345', 'TopX': '50', 'TopY': '200'},
-                "Aisle 6": {'BottomX': '111', 'BottomY': '345', 'TopX': '111', 'TopY': '200'},
-                "Aisle 7": {'BottomX': '179', 'BottomY': '345', 'TopX': '179', 'TopY': '200'},
-                "Aisle 8": {'BottomX': '245', 'BottomY': '345', 'TopX': '245', 'TopY': '200'},
-                "Aisle 9": {'BottomX': '50', 'BottomY': '182', 'TopX': '50', 'TopY': '64'},
-                "Aisle 10": {'BottomX': '111', 'BottomY': '182', 'TopX': '111', 'TopY': '64'},
-                "Aisle 11": {'BottomX': '179', 'BottomY': '182', 'TopX': '179', 'TopY': '64'},
-                "Aisle 12": {'BottomX': '245', 'BottomY': '182', 'TopX': '245', 'TopY': '64'},
-                "Aisle 13": {'BottomX': '14', 'BottomY': '10', 'TopX': '290', 'TopY': '10'},
-                "Checkout": {'TopX': '283', 'TopY': '498'}
-            }
-            img = Image.open('static/Aisles_Resized.png')
-            draw = ImageDraw.Draw(img)
-
-            for i in range(len(finalPath) - 2):
-                if (i == 0) and (finalPath[0] != 'Entrance'):
-                    print('Invalid Path')
-                    exit()
-                else:
-                    if (finalPath[0] == 'Entrance'):
-                        draw.line((int(aislesLocations[finalPath[0]]['TopX']),
-                                   int(aislesLocations[finalPath[0]]['TopY']),
-                             int(aislesLocations[finalPath[1]]['BottomX']),
-                             int(aislesLocations[finalPath[1]]['BottomY'])), fill=(0, 255, 0), width=5)
-
-                        if (finalPath[i] in aislesLocations) and (finalPath[i + 1] in aislesLocations) and (
-                                finalPath[i] != 'Entrance'):
-                            draw.line(
-                                (int(aislesLocations[finalPath[i]]['TopX']),
-                                 int(aislesLocations[finalPath[i]]['TopY']),
-                                 int(aislesLocations[finalPath[i + 1]]['BottomX']),
-                                 int(aislesLocations[finalPath[i + 1]]['BottomY'])), fill=(0, 255, 0), width=5)
-
-                    if (finalPath[-1] == 'Checkout'):
-                        draw.line((int(aislesLocations[finalPath[-2]]['TopX']),
-                                   int(aislesLocations[finalPath[-2]]['TopY']),
-                             int(aislesLocations[finalPath[-1]]['TopX']),
-                             int(aislesLocations[finalPath[-1]]['TopY'])), fill=(0, 255, 0), width=5)
+                if (finalPath[-1] == 'Checkout'):
+                    draw.line((int(aislesLocations[finalPath[-2]]['TopX']),
+                                int(aislesLocations[finalPath[-2]]['TopY']),
+                            int(aislesLocations[finalPath[-1]]['TopX']),
+                            int(aislesLocations[finalPath[-1]]['TopY'])), fill=(0, 255, 0), width=5)
 
 
-                    # Add if aisles are neighboring
-                    #Add if aisles are up and over from each other, add intersection points?
+                # Add if aisles are neighboring
+                #Add if aisles are up and over from each other, add intersection points?
 
-                # img.show()
+            # img.show()
 
-            img = img.save("static/Visualized_Path.png")
+        img = img.save("static/Visualized_Path.png")
 
 
 
@@ -501,140 +500,13 @@ if __name__ == '__main__':
 
 
 
-            return render_template("landing.html", path=finalPath)
+        return render_template("landing.html", path=finalPath)
 
 
 
-        elif request.method == 'GET':
+    elif request.method == 'GET':
 
-            return render_template("index.html")
+        return render_template("index.html")
 
 
-    app.run()
-
-    # # Clones edges and optimal path for ease of use. ☺
-    # all = aisleLayout.printEdges()
-    # optimal = aisleLayout.shoppingPath(aisles)
-    #
-    # # Creates some lists to organize path sections. ☺
-    # firstTry = []
-    # secondTry = []
-    # thirdTry = []
-    # cannotDo = []
-    # replacements = []
-    #
-    # # Zips the list of aisles into lists of 2 consecutive aisles for path checking. ☺
-    # res = list(zip(optimal, optimal[1:] + optimal[:1]))
-    # for item in res:
-    #     firstTry.append(list(item))
-    #
-    # for item in all:
-    #     secondTry.append(item)
-    #
-    # for item in firstTry:
-    #     if item in secondTry and item != ['Checkout', 'Entrance']:
-    #         thirdTry.append(item)
-    #
-    # # List of path segments we can naturally complete. ☺
-    # print(f"Paths that can be achieved: {thirdTry}")
-    #
-    # for item in thirdTry:
-    #     if item in firstTry and item != ['Checkout', 'Entrance']:
-    #         firstTry.remove(item)
-    #
-    # cannotDo = firstTry
-    #
-    # # List of path segments that cannot be naturally completed. ☺
-    # print(f"Paths that cannot be achieved: {cannotDo}")
-    #
-    # divider()
-    #
-    # # Function to generate paths for the segments that currently cannot be traversed. ☺
-    # def pathGen(start, end, currentPath):
-    #
-    #     currentPath.append(start)
-    #
-    #     if start == end:
-    #         # Path found between required start and end node. ☺
-    #         print(f"Path found: {currentPath}")
-    #         replacements.append(currentPath)
-    #         return
-    #
-    #     else:
-    #         neighbors = []
-    #         distances = []
-    #
-    #         # Find all potential next neighbors from the start node.
-    #         for i in all:
-    #             if start in i:
-    #                 for x in i:
-    #                     if x is not start and x not in neighbors:
-    #                         neighbors.append(x)
-    #
-    #         # Compare all potential neighboring nodes' weights. ☺
-    #         for potential in neighbors:
-    #             for key in aisleLayout.dijkstra(potential):
-    #                 if key is potential:
-    #                     distances.append(
-    #                         {key: aisleLayout.dijkstra(potential)[end] + aisleLayout.dijkstra(start)[potential]})
-    #
-    #         chosen = None
-    #         chosenDis = None
-    #
-    #         # Determine next step in pathfinding function. ☺
-    #         for pair in distances:
-    #
-    #             if chosen is None:
-    #                 chosen = list(pair.keys())[0]
-    #                 chosenDis = list(pair.values())[0]
-    #
-    #             elif int(list(pair.values())[0]) < chosenDis:
-    #                 chosen = list(pair.keys())[0]
-    #                 chosenDis = list(pair.values())[0]
-    #
-    #         pathGen(chosen, end, currentPath)
-    #
-    # # Determine what path segments cannot be completed and then aim to solve them. ☺
-    # for neededPath in cannotDo:
-    #     print(f"Path bust be found between {neededPath[0]} and {neededPath[1]}")
-    #     pathGen(neededPath[0], neededPath[1], [])
-    #     divider()
-    #
-    # shoppingPathClone = aisleLayout.shoppingPath(aisles)
-    #
-    # # Zip again. ☺
-    # res = list(zip(shoppingPathClone, shoppingPathClone[1:] + shoppingPathClone[:1]))
-    #
-    # cannotDo = [tuple(x) for x in cannotDo]
-    #
-    # # Format new path segments. ☺
-    # for i in res:
-    #
-    #     if i in cannotDo:
-    #         next1 = replacements.pop(0)
-    #         res[res.index(i)] = next1
-    #
-    # if ['Checkout', 'Entrance'] in res:
-    #     res.remove(['Checkout', 'Entrance'])
-    #
-    # print(f"Full Path: {res}")
-    #
-    # cleanPath = []
-    #
-    # for val in res:
-    #     for inVal in val:
-    #         cleanPath.append(inVal)
-    #
-    # print(f"Clean Path: {cleanPath}")
-    #
-    # previous_value = None
-    # finalPath = []
-    #
-    # # Replace old path segments which cannot be completed with new segments that can be completed. ☺
-    # for elem in cleanPath:
-    #     if elem != previous_value:
-    #         finalPath.append(elem)
-    #         previous_value = elem
-    #
-    # print(f"Final Path: {finalPath}")
-
+app.run(host='0.0.0.0', port=port, debug=True)
